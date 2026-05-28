@@ -1,7 +1,7 @@
 ﻿Imports System.Diagnostics
 
 Public Class FormCreditos
-    ' URL de donación real de Víctor integrada perfectamente
+
     Private urlDonacion As String = "https://www.paypal.com/paypalme/vcarreno1983"
 
     Public Sub New()
