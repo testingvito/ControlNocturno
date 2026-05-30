@@ -8,19 +8,19 @@ El sistema está optimizado para ejecutarse de forma sigilosa y eficiente, ideal
 
 ## ✨ Características Principales
 
-*   **Inicio 100% Invisible:** La aplicación arranca de manera completamente oculta. No genera ventanas emergentes ni parpadeos en el escritorio, protegiendo su presencia.
-*   **Gestión en Segundo Plano:** Se aloja directamente en el área de notificación de la barra de tareas (`NotifyIcon`) junto al reloj del sistema.
-*   **Control de Instancia Única (`Mutex`):** Bloquea la duplicación de procesos en la memoria RAM. Si se intenta abrir el programa más de una vez, el sistema muestra una advertencia amigable y cierra la nueva copia de forma segura.
-*   **Persistencia en el Sistema:** Opción integrada para registrar o remover la aplicación del auto-arranque de Windows (`Registry`).
-*   **Configuración Externa Dinámica:** Lee y escribe las preferencias en un archivo independiente `config.ini`, manteniendo la flexibilidad sin necesidad de recompilar el código.
+* **Inicio 100% Invisible:** La aplicación arranca de manera completamente oculta. No genera ventanas emergentes ni parpadeos en el escritorio, protegiendo su presencia.
+* **Gestión en Segundo Plano:** Se aloja directamente en el área de notificación de la barra de tareas (`NotifyIcon`) junto al reloj del sistema.
+* **Control de Instancia Única (`Mutex`):** Bloquea la duplicación de procesos en la memoria RAM. Si se intenta abrir el programa más de una vez, el sistema muestra una advertencia amigable y cierra la nueva copia de forma segura.
+* **Persistencia en el Sistema:** Opción integrada para registrar o remover la aplicación del auto-arranque de Windows (`Registry`).
+* **Configuración Externa Dinámica:** Lee y escribe las preferencias en un archivo independiente `config.ini`, manteniendo la flexibilidad sin necesidad de recompilar el código.
 
 ---
 
 ## 🛠️ Requisitos del Sistema
 
-*   **Sistema Operativo:** Windows 10 / Windows 11 (X64)
-*   **Entorno de Ejecución:** .NET 6.0 o .NET 8.0 Runtime (según la compilación seleccionada)
-*   **Permisos:** Se requieren privilegios de administración local para la gestión del auto-arranque en el registro.
+* **Sistema Operativo:** Windows 10 / Windows 11 (X64)
+* **Entorno de Ejecución:** .NET 6.0 o .NET 8.0 Runtime (según la compilación seleccionada)
+* **Permisos:** Se requieren privilegios de administración local (configurado vía manifiesto UAC) para la gestión del auto-arranque en el registro y comandos de apagado.
 
 ---
 
@@ -38,14 +38,3 @@ HoraInicio=23:59
 HoraFin=06:00
 Activo=True
 IniciarConWindows=True
-
-
-### 3. ⚠️ Nota Importante sobre Proyectos Experimentales y Bucles de Apagado
-
-Al tratarse de una solución experimental que interactúa de manera forzada e instantánea con los comandos del sistema operativo (`shutdown.exe`), se debe tener especial precaución al configurar los rangos:
-
-*   **Comportamiento en Rango Activo:** Si se activa la restricción y el reloj actual del equipo coincide con el horario prohibido, el programa ejecutará el apagado en un ciclo continuo cada vez que inicie Windows.
-*   **Margen de Maniobra:** Debido a que el sistema se cierra de inmediato en un bucle, **no habrá tiempo suficiente dentro de la interfaz gráfica para desactivar la aplicación o realizar cambios de manera convencional**.
-*   **Soluciones en caso de bloqueo:** Si quedas atrapado en el rango restrictivo por error, tienes dos opciones:
-    1.  **Esperar a que expire el tiempo:** Dejar el equipo apagado hasta que el reloj real del sistema supere la `HoraFin` configurada. Al encenderlo fuera del horario prohibido, podrás abrir la interfaz normalmente mediante el icono del reloj y corregir los valores.
-    2.  **Modificación Externa de Emergencia:** Iniciar el equipo en **Modo Seguro con Símbolo del Sistema** (o conectar el disco a otro equipo) para acceder al directorio del programa y editar o eliminar manualmente el archivo `config.ini` o el ejecutable antes de que Windows inicie la carga normal de procesos.
